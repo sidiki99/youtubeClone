@@ -54,10 +54,10 @@ const userSchema = new Schema({
 
 // hooks to encrypt the password
 
-userSchema.pre("save",async function(next){
-    if(!this.isModified("password")) return next();
-    this.password = bcrypt.hash(this.password,10)
-    next()
+userSchema.pre("save",async function(){
+    if(!this.isModified("password")) return ;
+    this.password = await bcrypt.hash(this.password,10)
+    
 })
 
 // custom function
@@ -75,7 +75,7 @@ userSchema.methods.generateAccessToken= function(){
      },
      process.env.ACCESS_TOKEN_SECRET,
       {
-         expiresIn:process.env.ACCESS_TOKEN-EXPIRY
+         expiresIn:process.env.ACCESS_TOKEN_EXPIRY
       }
   )
 }
@@ -93,7 +93,7 @@ userSchema.methods.generateRefreshToken= function(){
       }
   )
 }
-userSchema.methods.generateRefreshToken= function(){}
+
 
 
 export const user = mongoose.model("User",userSchema)

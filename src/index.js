@@ -1,15 +1,19 @@
+
+import "dotenv/config";
 import dns from "dns";
 dns.setDefaultResultOrder("ipv4first");
 dns.setServers(["8.8.8.8", "1.1.1.1"])
 import express from "express";
 
-import dotenv from "dotenv";
-dotenv.config();
-import cors from "cors";
-import cookieParser from "cookie-parser";
 
-import connectDB from "./db/index.js";
-import { app } from "./app.js";
+
+import cors from "cors";
+
+
+const { default: connectDB } = await import("./db/index.js");
+const { app } = await import("./app.js");
+import dotenv from "dotenv";
+dotenv.config({ path: "./.env" });
 
 app.use(cors({
   origin:process.env.CORS_ORIGIN,
