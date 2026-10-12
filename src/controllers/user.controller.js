@@ -166,8 +166,8 @@ const generateAccessAndRefreshTokens = async(userId)=>{
   const logoutUser=asyncHandler(async (req,res)=>{
      await  user.findByIdAndUpdate( req.user._id,
          {
-            $set:{
-               refreshToken:undefined
+            $unset:{
+               refreshToken:1
             }
          }
       ) 
